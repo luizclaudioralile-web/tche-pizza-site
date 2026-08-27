@@ -5,8 +5,8 @@
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
   <title>Tchê Pizza Delivery | A Pizza Mais Recheada de Ilhéus</title>
   
-  <!-- Preload instantâneo do vídeo Hero -->
-  <link rel="preload" href="/hero-video.mp4" as="video" type="video/mp4">
+  <!-- Preload condicional: ativa o download antecipado apenas em telas de Desktop -->
+  <link rel="preload" href="/hero-video.mp4" as="video" type="video/mp4" media="(min-width: 768px)">
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -143,21 +143,25 @@
     </header>
 
     <div class="flex flex-col w-full font-body-md text-on-surface">
-      <!-- Hero Section com Parallax Puro via CSS clip-path -->
+      
+      <!-- Hero Section (Parallax mantido via [clip-path:inset(0)] e fixed) -->
       <section class="relative w-full h-[85vh] flex items-center justify-center pt-20 bg-surface overflow-hidden [clip-path:inset(0)]">
         
-        <!-- Vídeo Fixo no Fundo (Parallax) -->
         <video 
           autoplay 
           loop 
           muted 
           playsinline 
           preload="auto"
+          poster="/hero-poster.jpg"
           class="fixed inset-0 w-full h-full object-cover -z-10 pointer-events-none">
-          <source src="/hero-video.mp4" type="video/mp4"/>
+          <!-- Opcional: Se tiver versão mobile leve -->
+          <source src="/hero-video-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
+          <!-- Versão original Desktop -->
+          <source src="/hero-video.mp4" type="video/mp4" media="(min-width: 768px)" />
         </video>
 
-        <!-- Content (Sem overlay escuro para manter cores vivas originais) -->
+        <!-- Conteúdo do Hero -->
         <div class="relative z-10 flex flex-col items-center justify-center px-margin-mobile text-center max-w-[800px] mt-16 reveal-hidden">
           <h1 class="font-headline-lg-mobile text-on-surface mb-4 tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] uppercase md:text-6xl text-5xl">
             A verdadeira pizza artesanal entregue na sua porta.
@@ -235,21 +239,21 @@
         </div>
       </section>
 
-      <!-- Our History com Parallax Puro -->
+      <!-- Our History (Parallax no Forno Mantido) -->
       <section class="relative w-full py-32 flex items-center justify-center bg-surface overflow-hidden [clip-path:inset(0)]" id="sobre">
         
-        <!-- Vídeo do Forno em Parallax -->
         <video 
           id="forno-video"
           loop 
           muted 
           playsinline 
           preload="none"
+          poster="/forno-poster.jpg"
           class="fixed inset-0 w-full h-full object-cover -z-10 pointer-events-none">
-          <source src="/forno-pizza.mp4" type="video/mp4"/>
+          <source src="/forno-pizza-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
+          <source src="/forno-pizza.mp4" type="video/mp4" media="(min-width: 768px)" />
         </video>
 
-        <!-- Sombra suave para leitura do texto sobre o forno -->
         <div class="absolute inset-0 bg-background/60 z-0"></div>
 
         <div class="relative z-10 max-w-3xl mx-auto px-margin-mobile text-center reveal-hidden">
@@ -348,7 +352,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Intersection Observer para animações
+      // Intersection Observer para animações de entrada
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -363,7 +367,7 @@
         observer.observe(element);
       });
 
-      // Intersection Observer para tocar o segundo vídeo apenas quando a seção estiver visível
+      // Lazy load do vídeo secundário (Sobre Nós)
       const videoForno = document.getElementById('forno-video');
       if (videoForno) {
         const videoObserver = new IntersectionObserver((entries) => {
