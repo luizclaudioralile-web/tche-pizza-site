@@ -5,10 +5,9 @@
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
   <title>Tchê Pizza Delivery | A Pizza Mais Recheada de Ilhéus</title>
   
-  <!-- 1. O SEGREDO DO CARREGAMENTO INSTANTÂNEO: Força o download do vídeo antes de tudo -->
+  <!-- Preload instantâneo do vídeo Hero -->
   <link rel="preload" href="/hero-video.mp4" as="video" type="video/mp4">
   
-  <!-- Preload de conexões e fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Anton&amp;display=swap" rel="stylesheet"/>
@@ -144,36 +143,33 @@
     </header>
 
     <div class="flex flex-col w-full font-body-md text-on-surface">
-      <!-- Hero Section -->
-      <section class="relative w-full h-[85vh] flex items-center justify-center pt-20 bg-surface overflow-hidden">
+      <!-- Hero Section com Parallax Puro via CSS clip-path -->
+      <section class="relative w-full h-[85vh] flex items-center justify-center pt-20 bg-surface overflow-hidden [clip-path:inset(0)]">
         
-        <!-- VÍDEO PRINCIPAL: Mantido autoplay e preload auto. Ele roda imediatamente. -->
+        <!-- Vídeo Fixo no Fundo (Parallax) -->
         <video 
           autoplay 
           loop 
           muted 
           playsinline 
           preload="auto"
-          class="absolute inset-0 w-full h-full object-cover z-0">
+          class="fixed inset-0 w-full h-full object-cover -z-10 pointer-events-none">
           <source src="/hero-video.mp4" type="video/mp4"/>
         </video>
 
-        <!-- Overlay de contraste para leitura -->
-        <div class="absolute inset-0 bg-background/50 z-0"></div>
-
-        <!-- Content -->
+        <!-- Content (Sem overlay escuro para manter cores vivas originais) -->
         <div class="relative z-10 flex flex-col items-center justify-center px-margin-mobile text-center max-w-[800px] mt-16 reveal-hidden">
-          <h1 class="font-headline-lg-mobile text-on-surface mb-4 tracking-wide drop-shadow-lg uppercase md:text-6xl text-5xl">
+          <h1 class="font-headline-lg-mobile text-on-surface mb-4 tracking-wide drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)] uppercase md:text-6xl text-5xl">
             A verdadeira pizza artesanal entregue na sua porta.
           </h1>
-          <p class="font-body-lg text-on-surface-variant mb-8 max-w-md mx-auto drop-shadow-sm text-xl">
+          <p class="font-body-lg text-on-surface mb-8 max-w-md mx-auto drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] text-xl font-medium">
             Massa de longa fermentação, ingredientes selecionados e o sabor inconfundível do Tchê direto para o seu bairro em Ilhéus.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 w-full justify-center">
-            <a class="inline-flex items-center justify-center px-8 py-4 bg-primary text-on-primary font-label-caps rounded-full shadow-md transition-transform hover:scale-105 text-lg" href="https://tchepizza.deeliv.app">
+            <a class="inline-flex items-center justify-center px-8 py-4 bg-primary text-on-primary font-label-caps rounded-full shadow-lg transition-transform hover:scale-105 text-lg" href="https://tchepizza.deeliv.app">
               Pedir pelo Site
             </a>
-            <a class="inline-flex items-center justify-center px-8 py-4 border border-outline text-primary font-label-caps rounded-full transition-colors hover:bg-primary/10 text-lg" href="https://wa.me/5573991926257?text=Olá,%20gostaria%20de%20fazer%20um%20pedido!">
+            <a class="inline-flex items-center justify-center px-8 py-4 border border-outline bg-black/30 backdrop-blur-sm text-primary font-label-caps rounded-full transition-colors hover:bg-primary/20 text-lg shadow-lg" href="https://wa.me/5573991926257?text=Olá,%20gostaria%20de%20fazer%20um%20pedido!">
               <span class="material-symbols-outlined mr-2 text-[18px]">chat</span>
               Pedir no WhatsApp
             </a>
@@ -182,7 +178,7 @@
       </section>
 
       <!-- Menu Highlights -->
-      <section class="py-24 px-margin-mobile bg-surface reveal-hidden" id="cardapio">
+      <section class="py-24 px-margin-mobile bg-surface reveal-hidden z-10" id="cardapio">
         <div class="max-w-container-max mx-auto">
           <div class="text-center mb-16">
             <h2 class="font-headline-md text-on-surface mb-2 uppercase tracking-wide text-4xl">As Mais Pedidas</h2>
@@ -239,22 +235,22 @@
         </div>
       </section>
 
-      <!-- Our History -->
-      <section class="relative w-full py-32 flex items-center justify-center bg-surface overflow-hidden" id="sobre">
+      <!-- Our History com Parallax Puro -->
+      <section class="relative w-full py-32 flex items-center justify-center bg-surface overflow-hidden [clip-path:inset(0)]" id="sobre">
         
-        <!-- VÍDEO SECUNDÁRIO: Sem autoplay e sem preload. Só baixa quando rolar a tela. -->
+        <!-- Vídeo do Forno em Parallax -->
         <video 
           id="forno-video"
           loop 
           muted 
           playsinline 
           preload="none"
-          class="absolute inset-0 w-full h-full object-cover z-0">
+          class="fixed inset-0 w-full h-full object-cover -z-10 pointer-events-none">
           <source src="/forno-pizza.mp4" type="video/mp4"/>
         </video>
 
-        <!-- Overlay de contraste -->
-        <div class="absolute inset-0 bg-background/70 z-0"></div>
+        <!-- Sombra suave para leitura do texto sobre o forno -->
+        <div class="absolute inset-0 bg-background/60 z-0"></div>
 
         <div class="relative z-10 max-w-3xl mx-auto px-margin-mobile text-center reveal-hidden">
           <h2 class="font-headline-md text-primary mb-6 uppercase tracking-wide text-4xl">Paixão por pizza, respeito ao processo.</h2>
@@ -265,7 +261,7 @@
       </section>
 
       <!-- How It Works -->
-      <section class="py-24 px-margin-mobile bg-surface-container-lowest reveal-hidden">
+      <section class="py-24 px-margin-mobile bg-surface-container-lowest reveal-hidden z-10">
         <div class="max-w-container-max mx-auto">
           <div class="text-center mb-16">
             <h2 class="font-headline-md text-on-surface mb-2 uppercase tracking-wide text-4xl">Do nosso forno para a sua casa em poucas etapas</h2>
@@ -298,7 +294,7 @@
       </section>
 
       <!-- Location & Hours -->
-      <section class="py-24 px-margin-mobile bg-surface reveal-hidden" id="horarios">
+      <section class="py-24 px-margin-mobile bg-surface reveal-hidden z-10" id="horarios">
         <div class="max-w-container-max mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div class="order-2 md:order-1 h-80 rounded-xl overflow-hidden border border-outline-variant/30">
             <div class="w-full h-full bg-cover bg-center" data-location="Ilhéus, Bahia" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAEVoESAlbJwBVz1ouyE5NHpN0FUUVzMa4AYZSHJLkxVhSlRKhFpePk5o3EcSWizOZynCbs7B4moQsGEeBEGCJiTves6csQjR9z7lCU4WFyw8sq7hTi7qlZRKO49i4wxlLAAxloYNwFaiNetwGWnTXYcnjCB68Q-y8cJFTjOe4hJjxI1EJ0BAgyWwzP5duXijKe9dU2ZlKRkFQApXuOmT8a0SgFk7nzoZpmInqLZd0zaeS-N2gZNBlO')"></div>
@@ -326,7 +322,7 @@
       </section>
 
       <!-- Footer CTA -->
-      <section class="py-32 px-margin-mobile border-t border-outline-variant/20 text-center bg-white text-surface-container-lowest reveal-hidden" id="contato">
+      <section class="py-32 px-margin-mobile border-t border-outline-variant/20 text-center bg-white text-surface-container-lowest reveal-hidden z-10" id="contato">
         <div class="max-w-2xl mx-auto flex flex-col items-center">
           <h2 class="font-headline-md text-surface-container-lowest mb-4 uppercase tracking-wide text-4xl">Bateu a fome? Garanta sua pizza de hoje.</h2>
           <p class="font-body-md text-surface-container-lowest/80 mb-10">
@@ -352,8 +348,7 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      
-      // Observer para animações
+      // Intersection Observer para animações
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -368,14 +363,13 @@
         observer.observe(element);
       });
 
-      // Observer EXCLUSIVO para carregar o segundo vídeo apenas quando a pessoa rolar até ele
+      // Intersection Observer para tocar o segundo vídeo apenas quando a seção estiver visível
       const videoForno = document.getElementById('forno-video');
       if (videoForno) {
         const videoObserver = new IntersectionObserver((entries) => {
           entries.forEach(entry => {
             if (entry.isIntersecting) {
               videoForno.play().catch(() => {});
-              // Para de observar depois que já deu o play
               videoObserver.unobserve(videoForno);
             }
           });
