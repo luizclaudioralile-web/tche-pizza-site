@@ -247,7 +247,7 @@
           loop 
           muted 
           playsinline 
-          preload="none"
+          preload="metadata"
           poster="/forno-poster.jpg"
           class="fixed inset-0 w-full h-full object-cover -z-10 pointer-events-none">
           <source src="/forno-pizza-mobile.mp4" type="video/mp4" media="(max-width: 767px)" />
@@ -366,20 +366,6 @@
       document.querySelectorAll('.reveal-hidden').forEach((element) => {
         observer.observe(element);
       });
-
-      // Lazy load do vídeo secundário (Sobre Nós)
-      const videoForno = document.getElementById('forno-video');
-      if (videoForno) {
-        const videoObserver = new IntersectionObserver((entries) => {
-          entries.forEach(entry => {
-            if (entry.isIntersecting) {
-              videoForno.play().catch(() => {});
-              videoObserver.unobserve(videoForno);
-            }
-          });
-        }, { threshold: 0.2 });
-        videoObserver.observe(videoForno);
-      }
     });
   </script>
 </body>
