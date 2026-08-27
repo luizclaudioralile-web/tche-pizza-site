@@ -5,6 +5,9 @@
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
   <title>Tchê Pizza Delivery | A Pizza Mais Recheada de Ilhéus</title>
   
+  <!-- 1. O SEGREDO DO CARREGAMENTO INSTANTÂNEO: Força o download do vídeo antes de tudo -->
+  <link rel="preload" href="/hero-video.mp4" as="video" type="video/mp4">
+  
   <!-- Preload de conexões e fontes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -143,7 +146,8 @@
     <div class="flex flex-col w-full font-body-md text-on-surface">
       <!-- Hero Section -->
       <section class="relative w-full h-[85vh] flex items-center justify-center pt-20 bg-surface overflow-hidden">
-        <!-- Direct Background Video (Sem div 'fixed' conflitante) -->
+        
+        <!-- VÍDEO PRINCIPAL: Mantido autoplay e preload auto. Ele roda imediatamente. -->
         <video 
           autoplay 
           loop 
@@ -237,13 +241,14 @@
 
       <!-- Our History -->
       <section class="relative w-full py-32 flex items-center justify-center bg-surface overflow-hidden" id="sobre">
-        <!-- Direct Background Video 2 -->
+        
+        <!-- VÍDEO SECUNDÁRIO: Sem autoplay e sem preload. Só baixa quando rolar a tela. -->
         <video 
-          autoplay 
+          id="forno-video"
           loop 
           muted 
           playsinline 
-          preload="auto"
+          preload="none"
           class="absolute inset-0 w-full h-full object-cover z-0">
           <source src="/forno-pizza.mp4" type="video/mp4"/>
         </video>
@@ -347,12 +352,8 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      // Forçar autoplay no iOS e Android sem lag de interação
-      const videos = document.querySelectorAll('video');
-      videos.forEach(video => {
-        video.play().catch(() => {});
-      });
-
+      
+      // Observer para animações
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
@@ -366,6 +367,21 @@
       document.querySelectorAll('.reveal-hidden').forEach((element) => {
         observer.observe(element);
       });
+
+      // Observer EXCLUSIVO para carregar o segundo vídeo apenas quando a pessoa rolar até ele
+      const videoForno = document.getElementById('forno-video');
+      if (videoForno) {
+        const videoObserver = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              videoForno.play().catch(() => {});
+              // Para de observar depois que já deu o play
+              videoObserver.unobserve(videoForno);
+            }
+          });
+        }, { threshold: 0.2 });
+        videoObserver.observe(videoForno);
+      }
     });
   </script>
 </body>
