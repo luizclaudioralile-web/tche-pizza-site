@@ -5,6 +5,9 @@
   <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport"/>
   <title>Tchê Pizza Delivery | A Pizza Mais Recheada de Ilhéus</title>
   
+  <!-- Preload de conexões e fontes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700&amp;family=Anton&amp;display=swap" rel="stylesheet"/>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
   
@@ -139,22 +142,20 @@
 
     <div class="flex flex-col w-full font-body-md text-on-surface">
       <!-- Hero Section -->
-      <section class="relative w-full h-[85vh] flex items-center justify-center pt-20 bg-transparent">
-        <!-- Background Video Otimizado com Preload e Poster -->
-        <div class="absolute inset-0 w-full h-full" style="clip-path: inset(0px);">
-          <div class="fixed inset-0 w-full h-full -z-10">
-            <video 
-              autoplay 
-              loop 
-              muted 
-              playsinline 
-              preload="auto"
-              poster="https://lh3.googleusercontent.com/aida-public/AB6AXuCMRTmC5NSObwb4fdGTKDPBUQB36H-ZlNgiDubAGSzmPz7F8TLoTJJduwFZRFk7AcT0Up3ykgN0TRpa-XrsyZMEF8NoxU9017nVfYo21lYxn5BlLuo84Mj0vwmhCS-Tb4_5Sr_4b2yN7PqCFwOoxnIZuij_38C-dXMeKAtMfpQxjyVn-9pKYOMV1aOR_jnp9M_bFt8yfW7wMdnm0IdXgVN15QjzjjmF8AIRngjNdrPVRA2L0PSgRFZy"
-              class="w-full h-full object-cover">
-              <source src="/hero-video-v2 (1).mp4" type="video/mp4"/>
-            </video>
-          </div>
-        </div>
+      <section class="relative w-full h-[85vh] flex items-center justify-center pt-20 bg-surface overflow-hidden">
+        <!-- Direct Background Video (Sem div 'fixed' conflitante) -->
+        <video 
+          autoplay 
+          loop 
+          muted 
+          playsinline 
+          preload="auto"
+          class="absolute inset-0 w-full h-full object-cover z-0">
+          <source src="/hero-video.mp4" type="video/mp4"/>
+        </video>
+
+        <!-- Overlay de contraste para leitura -->
+        <div class="absolute inset-0 bg-background/50 z-0"></div>
 
         <!-- Content -->
         <div class="relative z-10 flex flex-col items-center justify-center px-margin-mobile text-center max-w-[800px] mt-16 reveal-hidden">
@@ -235,22 +236,21 @@
       </section>
 
       <!-- Our History -->
-      <section class="relative w-full py-32 flex items-center justify-center bg-transparent" id="sobre">
-        <!-- Background Video 2 Otimizado com Extensão Corrigida -->
-        <div class="absolute inset-0 w-full h-full" style="clip-path: inset(0px);">
-          <div class="fixed inset-0 w-full h-full -z-10">
-            <video 
-              autoplay 
-              loop 
-              muted 
-              playsinline 
-              preload="metadata"
-              poster="https://lh3.googleusercontent.com/aida-public/AB6AXuA-A4m2MEky8qJk7OIV_z_p5szEhm_vAjPAiu6svylfi9eS2g4T6yLTvrDnLTwE_R-rkM2fzbbY_d4MVzhk2kwMsfYUemsgTdt4KbJoKsczGBNhKNkjnpeoGcWiN1Og6nBf78OdK3X9kYGeleaCPQ7fdlk7oY3dGduy5_g61i-GUQAMylDwV2QblAJ_WdFN1Ej6fjL_Flmid_J8lOtSNg1LC3df1afjaY2bB11NYN72BpuMh76adgwa"
-              class="w-full h-full object-cover">
-              <source src="/fornopizzamp4 (1)" type="video/mp4"/>
-            </video>
-          </div>
-        </div>
+      <section class="relative w-full py-32 flex items-center justify-center bg-surface overflow-hidden" id="sobre">
+        <!-- Direct Background Video 2 -->
+        <video 
+          autoplay 
+          loop 
+          muted 
+          playsinline 
+          preload="auto"
+          class="absolute inset-0 w-full h-full object-cover z-0">
+          <source src="/forno-pizza.mp4" type="video/mp4"/>
+        </video>
+
+        <!-- Overlay de contraste -->
+        <div class="absolute inset-0 bg-background/70 z-0"></div>
+
         <div class="relative z-10 max-w-3xl mx-auto px-margin-mobile text-center reveal-hidden">
           <h2 class="font-headline-md text-primary mb-6 uppercase tracking-wide text-4xl">Paixão por pizza, respeito ao processo.</h2>
           <p class="font-body-lg text-on-surface-variant leading-relaxed text-xl">
@@ -347,6 +347,12 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Forçar autoplay no iOS e Android sem lag de interação
+      const videos = document.querySelectorAll('video');
+      videos.forEach(video => {
+        video.play().catch(() => {});
+      });
+
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
